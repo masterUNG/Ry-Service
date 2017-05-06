@@ -1,7 +1,5 @@
-# MapKitTutorial
+# โปรจ็ค แอพค้นหา พิกัด ของมือถือ กำหนด จุดรับ ส่ง ของ คุณรี่ ภาษา Swift รันบน iOS
 
-How to search for location and display results using Apple’s MapKit
+เริ่มต้อง SetUp ชื่อ นามสกุล และ เบอร์โทร ไปที่ CoreData
 
-## License
 
-This is released under the MIT license. See LICENSE for details.
