@@ -17,6 +17,14 @@ class ViewController: UIViewController {
     
     var selectedPin: MKPlacemark?
     var resultSearchController: UISearchController!
+    var userLat = 0.0
+    var userLng = 0.0
+    var bolStatus = true
+    
+    
+    
+    
+    
     
     let locationManager = CLLocationManager()
     
@@ -27,6 +35,8 @@ class ViewController: UIViewController {
     @IBAction func userMarkerAction(_ sender: Any) {
         
         print("You Click userMarker")
+        print("Lat ==> \(userLat)")
+        print("Lng ==> \(userLng)")
         
     }
     
@@ -41,6 +51,8 @@ class ViewController: UIViewController {
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.requestWhenInUseAuthorization()
         locationManager.requestLocation()
+        
+        
         let locationSearchTable = storyboard!.instantiateViewController(withIdentifier: "LocationSearchTable") as! LocationSearchTable
         resultSearchController = UISearchController(searchResultsController: locationSearchTable)
         resultSearchController.searchResultsUpdater = locationSearchTable
@@ -54,7 +66,31 @@ class ViewController: UIViewController {
         locationSearchTable.mapView = mapView
         locationSearchTable.handleMapSearchDelegate = self
         
-    }
+        
+        let uilpgr = UILongPressGestureRecognizer(target: self, action: #selector(ViewController.longpress(gestureRecognizer:)))
+        uilpgr.minimumPressDuration = 1
+        mapView.addGestureRecognizer(uilpgr)
+        
+        
+    }   // viewDidload
+    
+    func longpress(gestureRecognizer: UILongPressGestureRecognizer) -> Void {
+        
+        
+        let touchPoint = gestureRecognizer.location(in: self.mapView)
+        let coodinate = mapView.convert(touchPoint, toCoordinateFrom: self.mapView)
+        let anotation = MKPointAnnotation()
+        anotation.coordinate = coodinate
+        anotation.title = "Title"
+        anotation.subtitle = "SubTitle"
+        mapView.addAnnotation(anotation)
+        
+       
+        
+    }   // viewDidLoad
+    
+    
+    
     
     func getDirections(){
         guard let selectedPin = selectedPin else { return }
@@ -76,6 +112,14 @@ extension ViewController : CLLocationManagerDelegate {
         guard let location = locations.first else { return }
         let span = MKCoordinateSpanMake(0.05, 0.05)
         let region = MKCoordinateRegion(center: location.coordinate, span: span)
+        
+        let uerLocation: CLLocation = locations[0]
+        userLat = uerLocation.coordinate.latitude
+        userLng = uerLocation.coordinate.longitude
+        
+        
+        
+        
         mapView.setRegion(region, animated: true)
     }
     
