@@ -22,7 +22,13 @@ class ViewController: UIViewController {
     
     @IBOutlet weak var mapView: MKMapView!
     
+    @IBOutlet weak var userMarkerOutlet: UIButton!
     
+    @IBAction func userMarkerAction(_ sender: Any) {
+        
+        print("You Click userMarker")
+        
+    }
     
     
     
